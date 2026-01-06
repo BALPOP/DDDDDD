@@ -1270,10 +1270,7 @@ async function confirmEntry() {
         console.log('Draw date calculated:', drawDate);
 
         // ✅ SECURE: Submit via Worker API
-        const year = drawDate.getFullYear();
-        const month = String(drawDate.getMonth() + 1).padStart(2, '0');
-        const day = String(drawDate.getDate()).padStart(2, '0');
-        const drawDateStr = `${year}-${month}-${day}`;
+        const drawDateStr = getBrazilDateString(drawDate);
 
         const concurso = calculateConcurso(drawDate);
 
@@ -1484,8 +1481,10 @@ function updateDrawDateDisplay() {
 })();
 
 // ✅ VLD Ticket Consultation Functionality (uses Google Sheets with blurred data)
-(function () {
-    const ENTRIES_URL = 'https://docs.google.com/spreadsheets/d/1OttNYHiecAuGG6IRX7lW6lkG5ciEcL8gp3g6lNrN9H8/export?format=csv&gid=0';
+(function() {
+    const ENTRIES_URL = window.location.pathname.includes('luz.html') ? 'https://docs.google.com/spreadsheets/d/1b_VAYANY_XUsO0_kZzyb3PpJveO4KviwuF5mPxoHKLo/export?format=csv&sheet=LUZ' :
+                       window.location.pathname.includes('n1.html') ? 'https://docs.google.com/spreadsheets/d/1b_VAYANY_XUsO0_kZzyb3PpJveO4KviwuF5mPxoHKLo/export?format=csv&sheet=N1' :
+                       'https://docs.google.com/spreadsheets/d/1OttNYHiecAuGG6IRX7lW6lkG5ciEcL8gp3g6lNrN9H8/export?format=csv&gid=0';
 
     let allEntries = [], filteredEntries = [];
     let currentFilter = 'all', searchTerm = '';
@@ -1882,30 +1881,8 @@ function updateDrawDateDisplay() {
         // Auto slide every 4 seconds
         setInterval(nextSlide, 4000);
 
-        // Countdown to January 6, 2026, Brazil time (UTC-3) at 00:01
-        function updateCountdown() {
-            const brazilTime = getBrazilTime();
-            const target = new Date('2026-01-06T00:01:00-03:00'); // Jan 6, 2026 00:01 Brazil
-            const diff = target - brazilTime;
-
-            if (diff > 0) {
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                document.getElementById('days').textContent = days.toString().padStart(2, '0');
-                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-            } else {
-                document.getElementById('countdownDisplay').innerHTML = '<div class="launched">🚀 LANÇADO!</div>';
-            }
-        }
-
-        // Update countdown every second
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
+        // POPLUZ is now launched - no countdown needed
+        // The countdown elements have been replaced with "JÁ DISPONÍVEL!" badge
     });
 })();
 
