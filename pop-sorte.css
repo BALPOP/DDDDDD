@@ -314,21 +314,7 @@ body { font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif; }
 
 .platform-option.is-unselected {
   opacity: 0.55;
-  position: relative;
-  border-style: dashed;
   transform: scale(0.96);
-}
-
-.platform-option.is-unselected::after {
-  content: '';
-  position: absolute;
-  left: 8%;
-  right: 8%;
-  top: 50%;
-  height: 2px;
-  background: rgba(75, 85, 99, 0.5);
-  transform: rotate(-4deg);
-  pointer-events: none;
 }
 
 .platform-option input {
